@@ -1,0 +1,53 @@
+/* Make the progress bar thicker and more vibrant */
+#nprogress .bar {
+    background: #ff4500; /* Bright orange for visibility */
+    height: 5px; /* Increase thickness */
+    z-index: 1031;
+}
+
+/* Customize the spinner */
+#nprogress .spinner {
+    display: block;
+    position: fixed;
+    z-index: 1031;
+    top: 15px;
+    right: 15px;
+}
+
+#nprogress .spinner-icon {
+    width: 24px;
+    height: 24px;
+    box-sizing: border-box;
+    border: 3px solid #ff4500; /* Match the bar color */
+    border-top-color: transparent;
+    border-radius: 50%;
+    animation: nprogress-spinner 400ms linear infinite;
+}
+
+/* Add animation */
+@keyframes nprogress-spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+#nprogress .bar {
+    box-shadow: 0 0 10px #ff4500, 0 0 5px #ff4500;
+}
+
+#nprogress .bar {
+    background: linear-gradient(to right, #ff4500, #ff7e00);
+}
+
+#nprogress .bar {
+    background: #ff4500 !important;
+    height: 5px !important;
+}
+
+#nprogress .spinner-icon {
+    border: 3px solid #ff4500 !important;
+    border-top-color: transparent !important;
+}

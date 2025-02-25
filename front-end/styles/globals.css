@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    .custom-tab-active {
+        @apply text-white bg-red-500;
+    }
+}
+
+@layer components {
+    .bg-primary {
+        background-color: #E04D0D;
+    }
+
+    .input-label {
+        @apply block mb-2 text-sm font-medium text-gray-900
+    }
+
+    .basic-input-control {
+        @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-sm block w-full p-2.5
+    }
+
+    .form-group {
+        @apply my-1
+    }
+
+    .input-control {
+        @apply mt-2 appearance-none  rounded-none relative block w-full px-3 py-3.5
+        border border-gray-300 placeholder-gray-500 text-gray-900 rounded-sm
+        focus:outline-none focus:ring-indigo-500 focus:border-indigo-500
+        focus:z-10 sm:text-sm
+    }
+
+    .input-select {
+        @apply block w-full bg-gray-50  border border-gray-300 appearance-none py-2.5 px-2 pr-8 rounded-sm leading-tight focus:outline-none focus:bg-white focus:border-gray-500
+    }
+
+
+    .btn-primary {
+        @apply bg-primary
+    }
+
+    .btn-neutral {
+        @apply bg-gray-300 text-black
+    }
+
+    .btn-secondary {
+        @apply rounded-sm bg-gray-100 ml-2 text-black border border-gray-200 hover:bg-gray-200
+    }
+
+
+    .a-link {
+        @apply text-blue-600 hover:text-blue-500
+    }
+
+    .tabs-container {
+        @apply flex flex-wrap -mb-px text-sm font-medium text-center text-gray-500 dark:text-gray-400
+    }
+
+    .table-td {
+        @apply px-6 py-3 font-medium text-gray-900  whitespace-nowrap
+    }
+
+    .text-primary {
+        @apply text-blue-900
+    }
+
+
+    .invalid-feedback {
+        @apply text-sm text-red-500 my-2
+    }
+
+    .sidebar-menu-active {
+        @apply bg-white rounded-none mb-4 border border-gray-300
+    }
+
+    #sidebar {
+        @apply w-72 px-10
+    }
+
+
+    #sidebar {
+        background-color: #e57e2b;
+    }
+
+    .sidebar-content {
+        @apply py-4 text-center
+    }
+
+    .dot {
+        @apply h-4 w-4 rounded-full
+    }
+
+    .btn-white {
+        @apply bg-white shadow-sm text-black hover:text-white
+    }
+
+    .btn-primary {
+        @apply bg-primary text-white
+    }
+
+
+    .list-group-item {
+        @apply border mx-1 my-0.5 px-2 py-2 rounded-sm hover:cursor-pointer hover:bg-red-50
+    }
+
+    .list-group-item.active {
+        @apply bg-red-50
+    }
+
+
+    .table-bordered td {
+        @apply border border-gray-300
+    }
+
+    .form-group {
+        @apply space-y-2
+    }
+
+    .card-std {
+        @apply rounded-sm bg-white shadow-sm border text-sm font-medium text-gray-900 px-4 py-2
+    }
+}

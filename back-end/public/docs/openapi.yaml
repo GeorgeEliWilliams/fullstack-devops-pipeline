@@ -1,0 +1,1939 @@
+openapi: 3.0.3
+info:
+  title: CLMS
+  description: 'Action Aid Malawi - Community Led monitoring system. '
+  version: 1.0.0
+servers:
+  -
+    url: 'http://localhost:8000'
+paths:
+  /api/analytics:
+    get:
+      summary: ''
+      operationId: getApiAnalytics
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Analytics
+      security: []
+  /api/analytics/dashboard:
+    get:
+      summary: ''
+      operationId: getApiAnalyticsDashboard
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Analytics
+      security: []
+  /api/analytics/forms:
+    get:
+      summary: ''
+      operationId: getApiAnalyticsForms
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Analytics
+      security: []
+  /api/login:
+    post:
+      summary: Login
+      operationId: login
+      description: 'Authenticates with the DB and returns the user, token and roles'
+      parameters: []
+      responses: {  }
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: ''
+                  example: qui
+                  nullable: false
+                password:
+                  type: string
+                  description: ''
+                  example: 'l}G{-H^qNy%+>Xmq'
+                  nullable: false
+              required:
+                - username
+                - password
+      security: []
+  /api/logout:
+    post:
+      summary: Logout
+      operationId: logout
+      description: 'Destroys the session and invalidates the token'
+      parameters: []
+      responses: {  }
+      tags:
+        - Authentication
+  /api/password/forgot:
+    post:
+      summary: 'Initiate Password Reset'
+      operationId: initiatePasswordReset
+      description: 'Initiates a password reset email'
+      parameters: []
+      responses: {  }
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: patsy47@example.com
+                  nullable: false
+              required:
+                - email
+      security: []
+  /api/password/reset:
+    post:
+      summary: Reset
+      operationId: reset
+      description: "Resets the user's password"
+      parameters: []
+      responses: {  }
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                token:
+                  type: string
+                  description: ''
+                  example: enim
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: letha.kuvalis@example.com
+                  nullable: false
+                password:
+                  type: string
+                  description: 'Must be at least 8 characters.'
+                  example: s>m|DS
+                  nullable: false
+              required:
+                - token
+                - email
+                - password
+      security: []
+  '/api/users/{user_id}/change-password':
+    patch:
+      summary: 'Reset Password'
+      operationId: resetPassword
+      description: 'Resets the user password to the given password'
+      parameters: []
+      responses: {  }
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                password:
+                  type: string
+                  description: ''
+                  example: "OM%AL}<S}-O>'"
+                  nullable: false
+              required:
+                - password
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 9d627bf3-e581-4dd1-b8ab-f78fb42b971a
+        required: true
+        schema:
+          type: string
+  /api/config/regions:
+    get:
+      summary: 'Get Regions'
+      operationId: getRegions
+      description: 'Returns registered regions'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Config
+  /api/config/districts:
+    get:
+      summary: 'Get Districts'
+      operationId: getDistricts
+      description: 'Returns configured districts'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Config
+  /api/config/partners:
+    get:
+      summary: Partners
+      operationId: partners
+      description: 'Returns configured partners'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Config
+  /api/config/roles:
+    get:
+      summary: Roles
+      operationId: roles
+      description: 'Returns a list of all configured roles'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Config
+      security: []
+  /api/health:
+    get:
+      summary: ''
+      operationId: getApiHealth
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  status: ok
+                properties:
+                  status:
+                    type: string
+                    example: ok
+      tags:
+        - Endpoints
+      security: []
+  '/api/issues/{issue_id}/report':
+    get:
+      summary: ''
+      operationId: getApiIssuesIssue_idReport
+      description: ''
+      parameters: []
+      responses:
+        200:
+          description: ''
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: !!binary 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MDAwPgo8MDAwMT4gPDAwMjM+IFs8MDA1MD4gPDAwNkY+IDwwMDcyPiA8MDAwOT4gPDAwNzQ+IDwwMDY1PiA8MDA2MT4gPDAwNkQ+IDwwMDZFPiA8MDA2ND4gPDAwNjg+IDwwMDYzPiA8MDA2Nj4gPDAwNDg+IDwwMDQ5PiA8MDA1Nj4gPDAwNTQ+IDwwMDQyPiA8MDA3NT4gPDAwNjc+IDwwMDczPiA8MDAzMT4gPDAwMkU+IDwwMDQzPiA8MDA2OT4gPDAwNzk+IDwwMDdBPiA8MDA3MD4gPDAwMkQ+IDwwMDMyPiA8MDA0RT4gPDAwNTI+IDwwMDYyPiA8MDA2Qz4gPDAwNTM+IF0KZW5kYmZyYW5nZQplbmRjbWFwCkNNYXBOYW1lIGN1cnJlbnRkaWN0IC9DTWFwIGRlZmluZXJlc291cmNlIHBvcAplbmQKZW5kCgplbmRzdHJlYW0KZW5kb2JqCjcgMCBvYmoKPDwgL1R5cGUgL0ZvbnQKL1N1YnR5cGUgL1R5cGUwCi9CYXNlRm9udCAvVGltZXNOZXdSb21hblBTLUJvbGRNVAovRW5jb2RpbmcgL0lkZW50aXR5LUgKL0Rlc2NlbmRhbnRGb250cyBbMjAgMCBSXQovVG9Vbmljb2RlIDIxIDAgUj4+CmVuZG9iagoyMyAwIG9iago8PCAvVHlwZSAvRm9udERlc2NyaXB0b3IKL0ZvbnROYW1lIC9RWEFBQUErVGltZXNOZXdSb21hblBTTVQKL0ZsYWdzIDQgCi9Gb250QkJveCBbLTU2OC4zNTkzNzUgLTQyMi4zNjMyODEgMjAwMCA4OTEuMTEzMjgxIF0KL0l0YWxpY0FuZ2xlIDAgCi9Bc2NlbnQgODkxLjExMzI4MSAKL0Rlc2NlbnQgLTIxNi4zMDg1OTMgCi9DYXBIZWlnaHQgNjYyLjEwOTM3NSAKL1N0ZW1WIDQ4LjgyODEyNTAgCi9Gb250RmlsZTIgMjQgMCBSCj4+CmVuZG9iagoyNCAwIG9iago8PAovTGVuZ3RoMSAxMTc2OCAKL0xlbmd0aCAyNyAwIFIKL0ZpbHRlciAvRmxhdGVEZWNvZGUKPj4Kc3RyZWFtCniclXoJfFvVme8992rxps3aZVm6knwl25JlWbIk72u87/EWJyGJbcm2EtvymsRJSBzINAFSIDTQFkrD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IDQ5NiA0OTYgNDk2IDI3NiA0OTYgODI2IDcxNSA0OTYgXQpdCj4+CmVuZG9iagoyNiAwIG9iago8PCAvTGVuZ3RoIDc0OSA+PgpzdHJlYW0KL0NJREluaXQgL1Byb2NTZXQgZmluZHJlc291cmNlIGJlZ2luCjEyIGRpY3QgYmVnaW4KYmVnaW5jbWFwCi9DSURTeXN0ZW1JbmZvIDw8IC9SZWdpc3RyeSAoQWRvYmUpIC9PcmRlcmluZyAoVUNTKSAvU3VwcGxlbWVudCAwID4+IGRlZgovQ01hcE5hbWUgL0Fkb2JlLUlkZW50aXR5LVVDUyBkZWYKL0NNYXBUeXBlIDIgZGVmCjEgYmVnaW5jb2Rlc3BhY2VyYW5nZQo8MDAwMD4gPEZGRkY+CmVuZGNvZGVzcGFjZXJhbmdlCjIgYmVnaW5iZnJhbmdlCjwwMDAwPiA8MDAwMD4gPDAwMDA+CjwwMDAxPiA8MDAzNz4gWzwwMDQxPiA8MDA2Mz4gPDAwNzQ+IDwwMDY5PiA8MDA2Rj4gPDAwNkU+IDwwMDA5PiA8MDA2ND4gPDAwNDM+IDwwMDRDPiA8MDA0RD4gPDAwMkQ+IDwwMDQ5PiA8MDA3Mz4gPDAwNzU+IDwwMDY1PiA8MDA1Mj4gPDAwNzA+IDwwMDcyPiA8MDA1Mz4gPDAwNjE+IDwwMDU0PiA8MDA2Qj4gPDAwNDY+IDwwMDZDPiA8MDA3OT4gPDAwNjg+IDwwMDZBPiA8MDA0ND4gPDAwNzc+IDwwMDQ4PiA8MDA1Nj4gPDAwMkM+IDwwMDQyPiA8MDAyRT4gPDAwNkQ+IDwwMDc2PiA8MDA0NT4gPDAwNjc+IDwwMDY2PiA8MDA1MD4gPDAwMzE+IDwwMDMzPiA8MDAzOT4gPDAwNTg+IDwwMDRGPiA8MDA2Mj4gPDAwMzI+IDwwMDMwPiA8MDAzND4gPDAwM0E+IDwwMDM3PiA8MDAyNT4gPDAwNDc+IDwwMDVGPiBdCmVuZGJmcmFuZ2UKZW5kY21hcApDTWFwTmFtZSBjdXJyZW50ZGljdCAvQ01hcCBkZWZpbmVyZXNvdXJjZSBwb3AKZW5kCmVuZAoKZW5kc3RyZWFtCmVuZG9iago2IDAgb2JqCjw8IC9UeXBlIC9Gb250Ci9TdWJ0eXBlIC9UeXBlMAovQmFzZUZvbnQgL1RpbWVzTmV3Um9tYW5QU01UCi9FbmNvZGluZyAvSWRlbnRpdHktSAovRGVzY2VuZGFudEZvbnRzIFsyNSAwIFJdCi9Ub1VuaWNvZGUgMjYgMCBSPj4KZW5kb2JqCjIgMCBvYmoKPDwKL1R5cGUgL1BhZ2VzCi9LaWRzIApbCjUgMCBSCjEyIDAgUgpdCi9Db3VudCAyCi9Qcm9jU2V0IFsvUERGIC9UZXh0IC9JbWFnZUIgL0ltYWdlQ10KPj4KZW5kb2JqCnhyZWYKMCAyOAowMDAwMDAwMDAwIDY1NTM1IGYgCjAwMDAwMDAwMDkgMDAwMDAgbiAKMDAwMDAyMTY5MSAwMDAwMCBuIAowMDAwMDAwMjc5IDAwMDAwIG4gCjAwMDAwMDAzNzQgMDAwMDAgbiAKMDAwMDAwMDQxMSAwMDAwMCBuIAowMDAwMDIxNTQ4IDAwMDAwIG4gCjAwMDAwMTIwNTggMDAwMDAgbiAKMDAwMDAwMDcyNyAwMDAwMCBuIAowMDAwMDAzMjg4IDAwMDAwIG4gCjAwMDAwMDA1MzEgMDAwMDAgbiAKMDAwMDAwMDcwNyAwMDAwMCBuIAowMDAwMDAzMzU4IDAwMDAwIG4gCjAwMDAwMDMzMDggMDAwMDAgbiAKMDAwMDAwMzY3NiAwMDAwMCBuIAowMDAwMDA1MDI1IDAwMDAwIG4gCjAwMDAwMDM0ODAgMDAwMDAgbiAKMDAwMDAwMzY1NiAwMDAwMCBuIAowMDAwMDA1MDQ2IDAwMDAwIG4gCjAwMDAwMDUzMTIgMDAwMDAgbiAKMDAwMDAxMTAzMSAwMDAwMCBuIAowMDAwMDExMzk3IDAwMDAwIG4gCjAwMDAwMTEwMTAgMDAwMDAgbiAKMDAwMDAxMjIwNiAwMDAwMCBuIAowMDAwMDEyNDY3IDAwMDAwIG4gCjAwMDAwMjAzMDYgMDAwMDAgbiAKMDAwMDAyMDc0NyAwMDAwMCBuIAowMDAwMDIwMjg1IDAwMDAwIG4gCnRyYWlsZXIKPDwKL1NpemUgMjgKL0luZm8gMSAwIFIKL1Jvb3QgMTMgMCBSCj4+CnN0YXJ0eHJlZgoyMTc5NgolJUVPRgo=
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: issue_id
+        description: 'The ID of the issue.'
+        example: e7ae46de-8879-4b37-8b3d-fc2de8dc9b24
+        required: true
+        schema:
+          type: string
+  /api/issues/upload:
+    post:
+      summary: ''
+      operationId: postApiIssuesUpload
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: 'Must be a file.'
+                  nullable: false
+              required:
+                - file
+      security: []
+  /api/issues:
+    get:
+      summary: ''
+      operationId: getApiIssues
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+  '/api/issues/{id}':
+    get:
+      summary: ''
+      operationId: getApiIssuesId
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    delete:
+      summary: ''
+      operationId: deleteApiIssuesId
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the issue.'
+        example: e7ae46de-8879-4b37-8b3d-fc2de8dc9b24
+        required: true
+        schema:
+          type: string
+  '/api/issues/{issue_id}/strategies':
+    get:
+      summary: ''
+      operationId: getApiIssuesIssue_idStrategies
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: issue_id
+        description: 'The ID of the issue.'
+        example: e7ae46de-8879-4b37-8b3d-fc2de8dc9b24
+        required: true
+        schema:
+          type: string
+  '/api/strategies/{strategy}/status-history':
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                  description: 'Must be a valid UUID.'
+                  example: 838775aa-1c87-3374-bc20-aba691a01a2f
+                  nullable: true
+                strategy_id:
+                  type: string
+                  description: 'Must be a valid UUID.  The <code>id</code> of an existing record in the strategies table.'
+                  example: 847e1cbc-4686-3b17-a15b-cae5195b7c37
+                  nullable: false
+                status_id:
+                  type: string
+                  description: 'Must be a valid UUID.  The <code>id</code> of an existing record in the strategies_status table.'
+                  example: e8d397e0-313b-3e44-8270-afd56d44909c
+                  nullable: false
+                updated_by:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: k
+                  nullable: false
+              required:
+                - strategy_id
+                - status_id
+                - updated_by
+      security: []
+    parameters:
+      -
+        in: path
+        name: strategy
+        description: 'The strategy.'
+        example: 1b1601df-48eb-4d27-b856-67350861ada8
+        required: true
+        schema:
+          type: string
+  /api/comments:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                  description: 'Must not be greater than 65535 characters.'
+                  example: duusnygraelbemm
+                  nullable: false
+                strategy_id:
+                  type: string
+                  description: 'Must be a valid UUID.  The <code>id</code> of an existing record in the strategies table.'
+                  example: 6970bba0-4ef7-37c2-b33f-883617f10328
+                  nullable: false
+                status:
+                  type: string
+                  description: ''
+                  example: delayed
+                  nullable: false
+                  enum:
+                    - pending
+                    - in_progress
+                    - completed
+                    - delayed
+                    - dropped
+                attachment:
+                  type: string
+                  format: binary
+                  description: 'Must be a file.'
+                  nullable: true
+              required:
+                - comment
+                - strategy_id
+                - status
+      security: []
+  '/api/comments/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                comment:
+                  type: string
+                  description: 'Must not be greater than 65535 characters.'
+                  example: zl
+                  nullable: true
+                strategy_id:
+                  type: string
+                  description: 'Must be a valid UUID.  The <code>id</code> of an existing record in the strategies table.'
+                  example: 46336926-489f-32cd-8faa-0c36108c3a63
+                  nullable: true
+                status:
+                  type: string
+                  description: ''
+                  example: completed
+                  nullable: true
+                  enum:
+                    - pending
+                    - in_progress
+                    - completed
+                    - delayed
+                    - dropped
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the comment.'
+        example: 226172f0-7fe7-4bda-944e-b1c3cf9351b6
+        required: true
+        schema:
+          type: string
+  /api/activities:
+    get:
+      summary: 'Display a listing of the resource.'
+      operationId: displayAListingOfTheResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    post:
+      summary: 'Store a newly created resource in storage.'
+      operationId: storeANewlyCreatedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activity_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: gnpovogbosirwolicwzwucpd
+                  nullable: false
+                responsible:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: grgbqqzdijtkrpjgmmlmzcc
+                  nullable: false
+                status:
+                  type: string
+                  description: ''
+                  example: in_progress
+                  nullable: false
+                  enum:
+                    - pending
+                    - in_progress
+                    - completed
+                    - cancelled
+                description:
+                  type: string
+                  description: ''
+                  example: 'Est aut veritatis ullam eos omnis et.'
+                  nullable: true
+                category:
+                  type: string
+                  description: ''
+                  example: engagement
+                  nullable: false
+                  enum:
+                    - education
+                    - engagement
+                    - advocacy
+                activity_note:
+                  type: string
+                  description: ''
+                  example: nisi
+                  nullable: true
+                strategy_id:
+                  type: string
+                  description: 'Must be a valid UUID.  The <code>id</code> of an existing record in the strategies table.'
+                  example: 56041741-28dc-3acd-96aa-1a6b1d19bf0b
+                  nullable: false
+              required:
+                - activity_name
+                - responsible
+                - status
+                - category
+                - strategy_id
+      security: []
+  '/api/activities/{id}':
+    get:
+      summary: 'Display the specified resource.'
+      operationId: displayTheSpecifiedResource
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Endpoints
+      security: []
+    put:
+      summary: 'Update the specified resource in storage.'
+      operationId: updateTheSpecifiedResourceInStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                activity_name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: cuneyyaubhvpjbpljqm
+                  nullable: false
+                responsible:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: zvbrjugliylfzdulmcmlzx
+                  nullable: false
+                status:
+                  type: string
+                  description: ''
+                  example: pending
+                  nullable: false
+                  enum:
+                    - pending
+                    - in_progress
+                    - completed
+                    - cancelled
+                description:
+                  type: string
+                  description: ''
+                  example: 'Qui vel et aut vel autem.'
+                  nullable: true
+                category:
+                  type: string
+                  description: ''
+                  example: advocacy
+                  nullable: false
+                  enum:
+                    - education
+                    - engagement
+                    - advocacy
+                activity_note:
+                  type: string
+                  description: ''
+                  example: laudantium
+                  nullable: true
+                strategy_id:
+                  type: string
+                  description: 'Must be a valid UUID.  The <code>id</code> of an existing record in the strategies table.'
+                  example: fa90ccf1-7f74-3aef-ad19-1079d98a170e
+                  nullable: false
+              required:
+                - activity_name
+                - responsible
+                - status
+                - category
+                - strategy_id
+      security: []
+    delete:
+      summary: 'Remove the specified resource from storage.'
+      operationId: removeTheSpecifiedResourceFromStorage
+      description: ''
+      parameters: []
+      responses: {  }
+      tags:
+        - Endpoints
+      security: []
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the activity.'
+        example: 9f13d7be-4180-40f0-b6ca-a4ce35440986
+        required: true
+        schema:
+          type: string
+  /api/facilities:
+    get:
+      summary: List
+      operationId: list
+      description: 'Returns a list of all facilities in the system'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Facilities
+    post:
+      summary: Store
+      operationId: store
+      description: 'Registers a new facility'
+      parameters: []
+      responses: {  }
+      tags:
+        - Facilities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: perspiciatis
+                  nullable: false
+                description:
+                  type: string
+                  description: ''
+                  example: 'Et perspiciatis perspiciatis cupiditate odio recusandae dolores impedit.'
+                  nullable: false
+                district_id:
+                  type: string
+                  description: ''
+                  example: quia
+                  nullable: false
+              required:
+                - name
+                - description
+                - district_id
+      security: []
+  '/api/facilities/{id}':
+    get:
+      summary: Show
+      operationId: show
+      description: 'Returns full details for a facility'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Facilities
+    put:
+      summary: Update
+      operationId: update
+      description: 'Updates the facility record'
+      parameters: []
+      responses: {  }
+      tags:
+        - Facilities
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: ''
+                  example: nam
+                  nullable: true
+                description:
+                  type: string
+                  description: ''
+                  example: 'Suscipit assumenda aliquam enim officia error.'
+                  nullable: true
+                district_id:
+                  type: string
+                  description: ''
+                  example: null
+                  nullable: true
+    delete:
+      summary: Delete
+      operationId: delete
+      description: 'Removes the facility'
+      parameters: []
+      responses: {  }
+      tags:
+        - Facilities
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the facility.'
+        example: a28997c4-b4fa-42e4-8c89-8ad3dba011cc
+        required: true
+        schema:
+          type: string
+  /api/collection-sessions/pending:
+    get:
+      summary: 'Get Pending'
+      operationId: getPending
+      description: 'Returns all collection session that are pending'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Forms
+  /api/collection-sessions/for-user:
+    get:
+      summary: 'Forms By User'
+      operationId: formsByUser
+      description: 'Returns all collection sessions for the user'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Forms
+  /api/forms:
+    get:
+      summary: List
+      operationId: list
+      description: 'returns a list of all forms in the system'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Forms
+  '/api/forms/{form_id}/download':
+    post:
+      summary: 'Download Data'
+      operationId: downloadData
+      description: 'Downloads data for the given form.'
+      parameters: []
+      responses: {  }
+      tags:
+        - Forms
+      security: []
+    parameters:
+      -
+        in: path
+        name: form_id
+        description: 'The ID of the form.'
+        example: 712b2fdb-1444-4dfb-bb69-d071e8310cac
+        required: true
+        schema:
+          type: string
+  '/api/forms/{form_id}':
+    get:
+      summary: Show
+      operationId: show
+      description: 'Returns full details for a particular form'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Forms
+    parameters:
+      -
+        in: path
+        name: form_id
+        description: 'The ID of the form.'
+        example: 712b2fdb-1444-4dfb-bb69-d071e8310cac
+        required: true
+        schema:
+          type: string
+  '/api/forms/{form_id}/collection-sessions':
+    get:
+      summary: 'Get all data collection sessions for a form'
+      operationId: getAllDataCollectionSessionsForAForm
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Forms
+      security: []
+    parameters:
+      -
+        in: path
+        name: form_id
+        description: 'The ID of the form.'
+        example: 712b2fdb-1444-4dfb-bb69-d071e8310cac
+        required: true
+        schema:
+          type: string
+  /api/collection-sessions:
+    get:
+      summary: Sessions
+      operationId: sessions
+      description: 'Returns all data collection sessions'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Forms
+      security: []
+    post:
+      summary: Submit
+      operationId: submit
+      description: 'Receives and process responses to a form'
+      parameters: []
+      responses: {  }
+      tags:
+        - Forms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                form_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the forms table.'
+                  example: asperiores
+                  nullable: false
+                user_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the users table.'
+                  example: quibusdam
+                  nullable: false
+                facility_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the facilities table.'
+                  example: magni
+                  nullable: false
+                responses:
+                  type: string
+                  description: 'Must be a valid JSON string.'
+                  example: '["tempore","asperiores"]'
+                  nullable: false
+              required:
+                - form_id
+                - user_id
+                - facility_id
+                - responses
+  '/api/collection-sessions/{collection_session_id}':
+    get:
+      summary: 'Get All'
+      operationId: getAll
+      description: 'Returns all collection sessions.'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Forms
+    post:
+      summary: Resubmit
+      operationId: resubmit
+      description: 'Added functionality for resubmitting form session data'
+      parameters: []
+      responses: {  }
+      tags:
+        - Forms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                responses:
+                  type: string
+                  description: 'Must be a valid JSON string.'
+                  example: '["doloribus","nemo"]'
+                  nullable: false
+              required:
+                - responses
+      security: []
+    parameters:
+      -
+        in: path
+        name: collection_session_id
+        description: 'The ID of the collection session.'
+        example: 11dd089a-5cc4-466f-a828-6c616837e047
+        required: true
+        schema:
+          type: string
+  '/api/collection-sessions/{collection_session_id}/review':
+    post:
+      summary: Review
+      operationId: review
+      description: 'Allows users to submit a review for a collection session'
+      parameters: []
+      responses: {  }
+      tags:
+        - Forms
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                status:
+                  type: string
+                  description: ''
+                  example: pending
+                  nullable: false
+                  enum:
+                    - pending
+                    - approved
+                    - rejected
+                    - revise
+                comment:
+                  type: string
+                  description: 'This field is required when <code>status</code> is <code>revise</code>.'
+                  example: aut
+                  nullable: false
+              required:
+                - status
+      security: []
+    parameters:
+      -
+        in: path
+        name: collection_session_id
+        description: 'The ID of the collection session.'
+        example: 11dd089a-5cc4-466f-a828-6c616837e047
+        required: true
+        schema:
+          type: string
+  '/api/facilities/{facility_id}/collection-sessions/{form_id}':
+    get:
+      summary: 'Facility Data'
+      operationId: facilityData
+      description: 'Returns form data for a specific facility'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Forms
+      security: []
+    parameters:
+      -
+        in: path
+        name: facility_id
+        description: 'The ID of the facility.'
+        example: a28997c4-b4fa-42e4-8c89-8ad3dba011cc
+        required: true
+        schema:
+          type: string
+      -
+        in: path
+        name: form_id
+        description: 'The ID of the form.'
+        example: 11dd089a-5cc4-466f-a828-6c616837e047
+        required: true
+        schema:
+          type: string
+  /api/strategies/for-user:
+    get:
+      summary: 'Get For User'
+      operationId: getForUser
+      description: 'Returns all strategic actions the user is supposed to see'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Strategies
+  /api/strategies:
+    get:
+      summary: List
+      operationId: list
+      description: 'Returns a list of all strategies in the system'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Strategies
+    post:
+      summary: Store
+      operationId: store
+      description: 'Registers a new strategy'
+      parameters: []
+      responses: {  }
+      tags:
+        - Strategies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: sonswzopqdncpuisdlord
+                  nullable: false
+                description:
+                  type: string
+                  description: ''
+                  example: 'Voluptatem earum autem atque omnis libero dolor.'
+                  nullable: true
+                responsible:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: vwxbjhcfdvhehpnkpesat
+                  nullable: false
+                level:
+                  type: string
+                  description: ''
+                  example: facility
+                  nullable: false
+                  enum:
+                    - community
+                    - facility
+                    - district
+                    - national
+                deadline:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after <code>today</code>.'
+                  example: '2043-03-28'
+                  nullable: true
+                budget:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 12
+                  nullable: false
+                status:
+                  type: string
+                  description: ''
+                  example: delayed
+                  nullable: false
+                  enum:
+                    - pending
+                    - in_progress
+                    - completed
+                    - delayed
+                    - dropped
+                objective:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: uyswltcojactoqwxpopj
+                  nullable: false
+                issue_id:
+                  type: string
+                  description: 'The <code>id</code> of an existing record in the issues table.'
+                  example: eum
+                  nullable: false
+              required:
+                - name
+                - responsible
+                - level
+                - budget
+                - status
+                - objective
+                - issue_id
+      security: []
+  '/api/strategies/{id}':
+    get:
+      summary: Show
+      operationId: show
+      description: 'Returns full details for a strategy'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Strategies
+    put:
+      summary: Update
+      operationId: update
+      description: 'Updates the strategy record'
+      parameters: []
+      responses: {  }
+      tags:
+        - Strategies
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                name:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: usgcrfn
+                  nullable: true
+                description:
+                  type: string
+                  description: ''
+                  example: 'Sint officia iste eveniet recusandae.'
+                  nullable: true
+                responsible:
+                  type: string
+                  description: 'Must not be greater than 255 characters.'
+                  example: zhwzktq
+                  nullable: true
+                level:
+                  type: string
+                  description: ''
+                  example: district
+                  nullable: true
+                  enum:
+                    - community
+                    - facility
+                    - district
+                    - national
+                deadline:
+                  type: string
+                  description: 'Must be a valid date. Must be a date after <code>today</code>.'
+                  example: '2116-06-27'
+                  nullable: true
+                budget:
+                  type: integer
+                  description: 'Must be at least 0.'
+                  example: 31
+                  nullable: true
+                status:
+                  type: string
+                  description: ''
+                  example: in_progress
+                  nullable: true
+                  enum:
+                    - pending
+                    - in_progress
+                    - completed
+                    - delayed
+                    - dropped
+                objective:
+                  type: string
+                  description: ''
+                  example: eveniet
+                  nullable: true
+                created_at:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-12-03T19:42:55'
+                  nullable: true
+                updated_at:
+                  type: string
+                  description: 'Must be a valid date.'
+                  example: '2024-12-03T19:42:55'
+                  nullable: true
+    delete:
+      summary: Delete
+      operationId: delete
+      description: 'Removes the specified strategy'
+      parameters: []
+      responses: {  }
+      tags:
+        - Strategies
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the strategy.'
+        example: 1b1601df-48eb-4d27-b856-67350861ada8
+        required: true
+        schema:
+          type: string
+  '/api/strategies/{strategy}/strategies-history':
+    get:
+      summary: ''
+      operationId: getApiStrategiesStrategyStrategiesHistory
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Strategies
+      security: []
+    parameters:
+      -
+        in: path
+        name: strategy
+        description: 'The strategy.'
+        example: 1b1601df-48eb-4d27-b856-67350861ada8
+        required: true
+        schema:
+          type: string
+  '/api/strategies/{strategy_id}/comments':
+    get:
+      summary: ''
+      operationId: getApiStrategiesStrategy_idComments
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Strategies
+      security: []
+    parameters:
+      -
+        in: path
+        name: strategy_id
+        description: 'The ID of the strategy.'
+        example: 1b1601df-48eb-4d27-b856-67350861ada8
+        required: true
+        schema:
+          type: string
+  '/api/strategies/{strategy_id}/activities':
+    get:
+      summary: ''
+      operationId: getApiStrategiesStrategy_idActivities
+      description: ''
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Strategies
+      security: []
+    parameters:
+      -
+        in: path
+        name: strategy_id
+        description: 'The ID of the strategy.'
+        example: 1b1601df-48eb-4d27-b856-67350861ada8
+        required: true
+        schema:
+          type: string
+  '/api/users/{user_id}':
+    patch:
+      summary: Update
+      operationId: update
+      description: 'Updates the user record'
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: brflgdzwekvytcccmav
+                  nullable: true
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: steuber.mercedes@example.net
+                  nullable: true
+                first_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: snjwedrenroruxlzetilg
+                  nullable: true
+                last_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: nktaclrbvivhfmyyme
+                  nullable: true
+                phone:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: facvkrevdtgn
+                  nullable: true
+                role:
+                  type: string
+                  description: 'This field is required when <code>facility_id</code>, <code>district_id</code>, or <code>partner_id</code> is present.'
+                  example: null
+                  nullable: true
+                facility_id:
+                  type: string
+                  description: 'This field is required when <code>role</code> is <code>data collector</code> or <code>facility staff</code>.  The <code>id</code> of an existing record in the facilities table.'
+                  example: est
+                  nullable: false
+                district_id:
+                  type: number
+                  description: 'This field is required when <code>role</code> is <code>clma</code>.  The <code>id</code> of an existing record in the districts table.'
+                  example: 301252.57831
+                  nullable: false
+                partner_id:
+                  type: string
+                  description: 'This field is required when <code>role</code> is <code>partner</code>.  The <code>id</code> of an existing record in the partners table.'
+                  example: est
+                  nullable: false
+    parameters:
+      -
+        in: path
+        name: user_id
+        description: 'The ID of the user.'
+        example: 9d627bf3-e581-4dd1-b8ab-f78fb42b971a
+        required: true
+        schema:
+          type: string
+  /api/admin/users:
+    get:
+      summary: Get
+      operationId: get
+      description: 'Returns a list of all user accounts in the system.'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Users
+    post:
+      summary: Store
+      operationId: store
+      description: 'Registers a new user account'
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: gwwteda
+                  nullable: false
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: john.balistreri@example.org
+                  nullable: true
+                first_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: fsrmkvb
+                  nullable: false
+                last_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: kdmkyg
+                  nullable: false
+                phone:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: tbeelldpwhitu
+                  nullable: false
+                role:
+                  type: string
+                  description: 'The <code>name</code> of an existing record in the roles table.'
+                  example: modi
+                  nullable: false
+                facility_id:
+                  type: string
+                  description: 'This field is required when <code>role</code> is <code>data collector</code>, <code>fic</code>, or <code>hfmo</code>.  The <code>id</code> of an existing record in the facilities table.'
+                  example: asperiores
+                  nullable: false
+                district_id:
+                  type: number
+                  description: 'This field is required when <code>role</code> is <code>clma</code>, <code>dfp</code>, or <code>dhmis officer</code>.  The <code>id</code> of an existing record in the districts table.'
+                  example: 126.8
+                  nullable: false
+                partner_id:
+                  type: string
+                  description: 'This field is required when <code>role</code> is <code>ssr</code>.  The <code>id</code> of an existing record in the partners table.'
+                  example: temporibus
+                  nullable: false
+              required:
+                - username
+                - first_name
+                - last_name
+                - phone
+                - role
+  '/api/admin/users/{id}':
+    get:
+      summary: Show
+      operationId: show
+      description: 'Returns full details for a user'
+      parameters: []
+      responses:
+        401:
+          description: ''
+          content:
+            application/json:
+              schema:
+                type: object
+                example:
+                  message: Unauthenticated.
+                properties:
+                  message:
+                    type: string
+                    example: Unauthenticated.
+      tags:
+        - Users
+    put:
+      summary: Update
+      operationId: update
+      description: 'Updates the user record'
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+      requestBody:
+        required: false
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: diokvv
+                  nullable: true
+                email:
+                  type: string
+                  description: 'Must be a valid email address.'
+                  example: rowena35@example.net
+                  nullable: true
+                first_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: vbrxelyec
+                  nullable: true
+                last_name:
+                  type: string
+                  description: 'Must not be greater than 50 characters.'
+                  example: arfzncbqxsvijrwnybmo
+                  nullable: true
+                phone:
+                  type: string
+                  description: 'Must not be greater than 20 characters.'
+                  example: sdkofjlziduhlhnuk
+                  nullable: true
+                role:
+                  type: string
+                  description: 'This field is required when <code>facility_id</code>, <code>district_id</code>, or <code>partner_id</code> is present.'
+                  example: null
+                  nullable: true
+                facility_id:
+                  type: string
+                  description: 'This field is required when <code>role</code> is <code>data collector</code> or <code>facility staff</code>.  The <code>id</code> of an existing record in the facilities table.'
+                  example: culpa
+                  nullable: false
+                district_id:
+                  type: number
+                  description: 'This field is required when <code>role</code> is <code>clma</code>.  The <code>id</code> of an existing record in the districts table.'
+                  example: 86.843
+                  nullable: false
+                partner_id:
+                  type: string
+                  description: 'This field is required when <code>role</code> is <code>partner</code>.  The <code>id</code> of an existing record in the partners table.'
+                  example: delectus
+                  nullable: false
+    delete:
+      summary: Delete
+      operationId: delete
+      description: 'Removes the user from system'
+      parameters: []
+      responses: {  }
+      tags:
+        - Users
+    parameters:
+      -
+        in: path
+        name: id
+        description: 'The ID of the user.'
+        example: 9d627bf3-e581-4dd1-b8ab-f78fb42b971a
+        required: true
+        schema:
+          type: string
+tags:
+  -
+    name: Analytics
+    description: "\nEndpoints for analytics"
+  -
+    name: Authentication
+    description: ''
+  -
+    name: Config
+    description: "\nEndpoints for fetching configuration data"
+  -
+    name: Endpoints
+    description: ''
+  -
+    name: Facilities
+    description: "\nEndpoints for managing facilities"
+  -
+    name: Forms
+    description: "\nEndpoints for managing forms"
+  -
+    name: Strategies
+    description: "\nEndpoints for managing strategies"
+  -
+    name: Users
+    description: "\nAPI routes for managing user accounts"
