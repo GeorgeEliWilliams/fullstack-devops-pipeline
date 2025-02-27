@@ -1,0 +1,63 @@
+# General
+node_modules/
+npm-debug.log*
+yarn-error.log
+pnpm-debug.log*
+.DS_Store
+Thumbs.db
+
+# Next.js
+.next/
+out/
+.vercel/
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor/IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Docker
+docker-compose.override.yml
+*.env
+*.dockerignore
+/.docker
+/docker-sync/
+**/Dockerfile*
+
+# Laravel-specific (if applicable)
+vendor/
+storage/
+.env
+.env.testing
+.env.backup
+.env.example
+bootstrap/cache/
+public/storage
+database/database.sqlite
+database/*.sqlite
+*.sql
+*.bak
+phpunit.xml
+node_modules/
+yarn.lock
+composer.lock
+
+# Mac and Linux system files
+*.DS_Store
+*.vscode
+*.swp
+*.swo
