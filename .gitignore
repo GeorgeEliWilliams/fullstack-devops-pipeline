@@ -30,13 +30,13 @@ lerna-debug.log*
 *.swp
 *.swo
 
-# Docker
+# Docker (Ignoring overrides and unnecessary files, but keeping Dockerfile & docker-compose.yml)
+.dockerignore
 docker-compose.override.yml
-*.env
-*.dockerignore
-/.docker
-/docker-sync/
-**/Dockerfile*
+
+# Force include Docker files
+!Dockerfile
+!docker-compose.yml
 
 # Laravel-specific (if applicable)
 vendor/
