@@ -1,32 +1,33 @@
-# Use a lightweight Node.js image for building the frontend
-FROM node:18-alpine AS builder
+# Stage 1: Build Next.js app
+FROM node:18 AS builder
 
-# Set working directory
 WORKDIR /app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
+# Copy package.json and package-lock.json first to leverage caching
+COPY package.json package-lock.json ./
 
-# Install dependencies
+# Install dependencies with legacy peer support
 RUN npm install --legacy-peer-deps
 
-# Copy the rest of the application files
+# Copy the rest of the application
 COPY . .
 
-# Build the frontend
+# Build the Next.js app
 RUN npm run build
 
-# Use Nginx as the base image for serving the frontend
-FROM nginx:alpine
+# Stage 2: Production runtime (Node.js for SSR)
+FROM node:18 AS runner
 
-# Copy the built frontend files from the builder stage to Nginx
-COPY --from=builder /app/build /usr/share/nginx/html
+WORKDIR /app
 
-# Copy custom Nginx configuration 
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+# Copy only necessary files from builder
+COPY --from=builder /app/.next .next
+COPY --from=builder /app/node_modules node_modules
+COPY --from=builder /app/package.json package.json
+COPY --from=builder /app/public public
 
-# Expose port 80
-EXPOSE 80
+# Expose Next.js default port
+EXPOSE 3000
 
-# Start Nginx
-CMD ["nginx", "-g", "daemon off;"]
+# Start the Next.js server
+CMD ["npm", "run", "start"]
