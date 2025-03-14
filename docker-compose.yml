@@ -1,0 +1,70 @@
+services:
+
+  frontend:
+    build: front-end
+    container_name: ${APP_NAME}_frontend
+    ports:
+      - "3000:3000"  # Expose frontend on port 3000
+    depends_on:
+      - backend
+    networks:
+      - laravel_network
+
+  backend:
+    build: back-end
+    container_name: ${APP_NAME}_backend
+    restart: unless-stopped
+    environment:
+      APP_ENV: ${APP_ENV}
+      APP_DEBUG: ${APP_DEBUG}
+      APP_KEY: ${APP_KEY}
+      DB_CONNECTION: mysql
+      DB_HOST: database  # Connects to the MySQL container
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE}
+      DB_USERNAME: ${DB_USERNAME}
+      DB_PASSWORD: ${DB_PASSWORD}
+    volumes:
+      - ./back-end:/var/www
+    depends_on:
+      - database
+    networks:
+      - laravel_network
+
+  database:
+    image: mysql:8.0
+    container_name: ${APP_NAME}_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE}
+      MYSQL_USER: ${DB_USERNAME}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+    volumes:
+      - mysql_data:/var/lib/mysql  # Persist database data
+    networks:
+      - laravel_network
+
+  
+
+  nginx:
+    image: nginx:alpine
+    container_name: ${APP_NAME}_nginx
+    restart: unless-stopped
+    ports:
+      - "80:80"  # Forward HTTP traffic to Nginx
+    volumes:
+      - ./back-end:/var/www  
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro  # Ensure correct path and read-only
+    depends_on:
+      - backend  # Ensure backend (PHP-FPM) starts before Nginx
+    networks:
+      - laravel_network
+
+
+
+networks:
+  laravel_network:  # Custom network for all services
+
+volumes:
+  mysql_data:  # Persistent storage for MySQL
