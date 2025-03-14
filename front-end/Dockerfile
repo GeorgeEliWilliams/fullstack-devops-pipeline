@@ -1,33 +1,37 @@
-# Stage 1: Build Next.js app
-FROM node:18 AS builder
+FROM node:18-alpine AS base
 
+FROM base AS deps
 WORKDIR /app
 
-# Copy package.json and package-lock.json first to leverage caching
-COPY package.json package-lock.json ./
+COPY package*.json ./
 
-# Install dependencies with legacy peer support
-RUN npm install --legacy-peer-deps
+RUN apk add --no-cache libc6-compat && \
+    npm install --legacy-peer-deps
 
-# Copy the rest of the application
+FROM base AS builder
+WORKDIR /app  
+
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Build the Next.js app
 RUN npm run build
 
-# Stage 2: Production runtime (Node.js for SSR)
-FROM node:18 AS runner
-
+FROM base AS runner
 WORKDIR /app
 
-# Copy only necessary files from builder
-COPY --from=builder /app/.next .next
-COPY --from=builder /app/node_modules node_modules
-COPY --from=builder /app/package.json package.json
-COPY --from=builder /app/public public
+ENV NODE_ENV=production
 
-# Expose Next.js default port
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nextjs
+
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
+ENV PORT=3000
 EXPOSE 3000
 
-# Start the Next.js server
-CMD ["npm", "run", "start"]
+# HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 CMD [ "wget", "-q0", "http://127.0.0.1:3000" ]
+
+CMD ["node", "server.js"]
