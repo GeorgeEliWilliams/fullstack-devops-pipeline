@@ -90,17 +90,25 @@ jobs:
     runs-on: ubuntu-latest
     needs: [CI]
     steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@v0.1.10
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.TMP_PROJECT_HOST }}
-          username: ${{ secrets.TMP_PROJECT_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_GITHUB_ACTION_ROLE }}
+          role-session-name: tmp-project-${{ env.ENVIRONMENT }}-${{ env.SERVICE }}
+
+      - name: Deploy
+        uses: your-github-username/ssm-send-command-action@v1
+        with:
+          instanceName: ${{ secrets.TMP_PROJECT_HOST }}
+          workingDirectory: /home/ec2/tmp-project
+          commands: |
             aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 314146303416.dkr.ecr.eu-west-1.amazonaws.com
-            cd /home/ec2/tmp-project
             docker compose pull ${{ env.SERVICE }}
             docker compose up --no-deps -d ${{ env.SERVICE }}
+
+      
 
   # Report:
   #   runs-on: ubuntu-latest
