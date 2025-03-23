@@ -28,7 +28,7 @@ env:
   ENVIROMENT: "DEV"
   REPOSITORY: "tmp-project"
   AWS_GITHUB_ACTION_ROLE: ${{ secrets.AWS_GITHUB_ACTION_ROLE }}
-  PROJECT_DIR: "/home/ec2/tmp-project"
+  PROJECT_DIR: "/home/ec2-user/tmp-project"
   # SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_DEV }}
 
 jobs:
