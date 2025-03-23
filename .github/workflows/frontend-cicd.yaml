@@ -107,8 +107,7 @@ jobs:
           COMMAND_ID=$(aws ssm send-command \
             --instance-ids ${{ secrets.TMP_PROJECT_HOST }} \
             --document-name "AWS-RunShellScript" \
-            --parameters commands=[".github/scripts/deploy.sh"] \
-            --working-directory "$PROJECT_DIR" \
+            --parameters commands=["bash .github/scripts/deploy.sh"] \
             --comment "Deploying application via GitHub Actions" \
             --query "Command.CommandId" \
             --output text)
