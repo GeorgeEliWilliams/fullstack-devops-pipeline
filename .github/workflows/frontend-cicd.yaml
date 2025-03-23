@@ -32,7 +32,7 @@ env:
 
 jobs:
   CI:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
 
     outputs:
       version: ${{ steps.version.outputs.version }}
