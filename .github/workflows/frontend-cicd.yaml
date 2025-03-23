@@ -108,8 +108,8 @@ jobs:
             --instance-ids ${{ secrets.TMP_PROJECT_HOST }} \
             --document-name "AWS-RunShellScript" \
             --parameters 'commands=[
-              "cd $PROJECT_DIR",
-              "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY",
+              "cd ${{ env.PROJECT_DIR }}",
+              "aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.REGISTRY }}",
               "docker compose pull ${{ env.SERVICE }}",
               "docker compose up --no-deps -d ${{ env.SERVICE }}"
             ]' \
