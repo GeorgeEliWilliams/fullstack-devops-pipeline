@@ -13,9 +13,6 @@ on:
       - main
     types:
       - closed
-    paths-ignore:
-      - ".github/**"
-      - "ops/**"
     paths:
       - "back-end/**"
 
