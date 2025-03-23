@@ -107,12 +107,12 @@ jobs:
           COMMAND_ID=$(aws ssm send-command \
             --instance-ids ${{ secrets.TMP_PROJECT_HOST }} \
             --document-name "AWS-RunShellScript" \
-            --parameters commands=[
+            --parameters 'commands=[
               "cd $PROJECT_DIR",
               "aws ecr get-login-password --region $AWS_REGION | docker login --username AWS --password-stdin $REGISTRY",
               "docker compose pull ${{ env.SERVICE }}",
               "docker compose up --no-deps -d ${{ env.SERVICE }}"
-            ] \
+            ]' \
             --comment "Deploying application via GitHub Actions" \
             --query "Command.CommandId" \
             --output text)
