@@ -1,0 +1,118 @@
+name: TMP Project CI/CD
+
+permissions:
+  id-token: write
+  contents: write
+  actions: read
+  security-events: write
+  statuses: write
+
+on:
+  pull_request:
+    branches:
+      - main
+    types:
+      - closed
+    paths-ignore:
+      - ".github/**"
+      - "ops/**"
+    paths:
+      - "back-end/**"
+
+env:
+  REGISTRY: "314146303416.dkr.ecr.eu-west-1.amazonaws.com"
+  SERVICE: backend
+  ENVIRONMENT: "DEV"
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  AWS_REGION: "eu-west-1"
+  ENVIROMENT: "DEV"
+  REPOSITORY: "tmp-project"
+  AWS_GITHUB_ACTION_ROLE: ${{ secrets.AWS_GITHUB_ACTION_ROLE }}
+  # SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_DEV }}
+
+jobs:
+  CI:
+    if: github.event.pull_request.merged == true
+
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Get Version
+        id: version
+        uses: paulhatch/semantic-version@v5.4.0
+        env:
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+        with:
+          tag_prefix: "v"
+          major_pattern: "(MAJOR)"
+          minor_pattern: "(MINOR)"
+          version_format: "${major}.${minor}.${patch}-${{ env.ENVIRONMENT }}-${increment}"
+          bump_each_commit: false
+          bump_each_commit_patch_pattern: ""
+          search_commit_body: false
+          user_format_type: "csv"
+
+      - name: Build and Package
+        env:
+          TAG: ${{ steps.version.outputs.version }}
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+        run: |
+          docker build -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ env.TAG }} --build-arg ENVIRONMENT=${{ env.ENVIRONMENT }} .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_GITHUB_ACTION_ROLE }}
+          role-session-name: coreops-dev-${{ env.SERVICE }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          mask-password: true
+
+      - name: Publish
+        env:
+          TAG: ${{ steps.version.outputs.version }}
+        run: |
+          echo "Pushing the Docker image to ECR..."
+          docker push ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ env.TAG }}
+
+  CD:
+    runs-on: ubuntu-latest
+    needs: [CI]
+    steps:
+      - name: Deploy
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.TMP_PROJECT_HOST }}
+          username: ${{ secrets.TMP_PROJECT_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 314146303416.dkr.ecr.eu-west-1.amazonaws.com
+            cd /home/ec2/tmp_project
+            docker compose pull ${{ env.SERVICE }}
+            docker compose up --no-deps -d ${{ env.SERVICE }}
+
+  # Report:
+  #   runs-on: ubuntu-latest
+  #   needs: [CI, CD]
+  #   if: ${{ always() }}
+  #   steps:
+  #     - uses: technote-space/workflow-conclusion-action@v3
+  #     - name: Slack Notification
+  #       uses: 8398a7/action-slack@v3
+  #       with:
+  #         status: ${{ env.WORKFLOW_CONCLUSION }}
+  #         fields: repo,message,commit,author,action,eventName,ref,workflow
+
+  #       env:
+  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}

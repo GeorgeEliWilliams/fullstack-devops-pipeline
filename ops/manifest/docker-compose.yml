@@ -1,9 +1,7 @@
 services:
   frontend:
     container_name: ${APP_NAME}-frontend
-    image: ${APP_NAME}-frontend
-    # build:
-    #   context: front-end
+    image: 314146303416.dkr.ecr.eu-west-1.amazonaws.com/tmp-project/frontend
     expose:
       - 3000
     ports:
@@ -19,9 +17,7 @@ services:
 
   backend:
     container_name: ${APP_NAME}-backend
-    image: ${APP_NAME}-backend
-    # build:
-    #   context: back-end
+    image: 314146303416.dkr.ecr.eu-west-1.amazonaws.com/tmp-project/backend
     expose:
       - 9000
     restart: unless-stopped

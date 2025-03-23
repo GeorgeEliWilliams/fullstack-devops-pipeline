@@ -1,63 +1,67 @@
-# General
-node_modules/
-npm-debug.log*
-yarn-error.log
-pnpm-debug.log*
+# === General OS files ===
 .DS_Store
 Thumbs.db
 
-# Next.js
+# === Node.js / Frontend ===
+node_modules/
+dist/
 .next/
 out/
-.vercel/
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.vite/
+yarn.lock
+pnpm-lock.yaml
+package-lock.json
 
-# Logs
-logs/
+# === Laravel / PHP ===
+vendor/
+.env
+.env.*
+storage/
+bootstrap/cache/
+composer.lock
+phpunit.xml
+node_modules/
+public/hot
+public/storage
+database/database.sqlite
+database/database.sqlite-journal
+
+# === Terraform ===
+*.terraform*
+*.tfstate
+*.tfstate.backup
+crash.log
+terraform.tfvars
+terraform.tfvars.json
+.override.tf
+.override.tf.json
+*.auto.tfvars
+.plan
+
+# === Docker (if used) ===
+docker-compose.override.yml
+.env.docker
+docker-entrypoint.sh
+
+# === Logs ===
 *.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
+storage/logs/*.log
 
-# Editor/IDE files
+# === IDE / Editor Specific ===
 .vscode/
 .idea/
 *.swp
 *.swo
 
-# Docker (Ignoring overrides and unnecessary files, but keeping Dockerfile & docker-compose.yml)
-.dockerignore
-docker-compose.override.yml
+# === GitHub Actions Cache ===
+.github/workflows/*.bak
+.github/workflows/*.cache
 
-# Force include Docker files
-!Dockerfile
-!docker-compose.yml
-
-# Laravel-specific (if applicable)
-vendor/
-storage/
-.env
-.env.testing
-.env.backup
-.env.example
-bootstrap/cache/
-public/storage
-database/database.sqlite
-database/*.sqlite
-*.sql
-*.bak
-phpunit.xml
-node_modules/
-yarn.lock
-composer.lock
-
-# Mac and Linux system files
-*.DS_Store
-*.vscode
-*.swp
-*.swo
+# === Build Artifacts ===
+build/
+cache/
+coverage/
