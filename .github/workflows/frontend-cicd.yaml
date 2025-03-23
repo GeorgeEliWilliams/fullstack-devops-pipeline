@@ -99,7 +99,7 @@ jobs:
           role-session-name: tmp-project-${{ env.ENVIRONMENT }}-${{ env.SERVICE }}
 
       - name: Deploy
-        uses: your-github-username/ssm-send-command-action@v1
+        uses: GeorgeEliWilliams/ssm-send-command-action@v1
         with:
           instanceName: ${{ secrets.TMP_PROJECT_HOST }}
           workingDirectory: /home/ec2/tmp-project
