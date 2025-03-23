@@ -110,8 +110,8 @@ jobs:
             --parameters 'commands=[
               "cd ${{ env.PROJECT_DIR }}",
               "aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.REGISTRY }}",
-              "docker compose pull ${{ env.SERVICE }}",
-              "docker compose up --no-deps -d ${{ env.SERVICE }}"
+              "docker-compose pull ${{ env.SERVICE }}",
+              "docker-compose up --no-deps -d ${{ env.SERVICE }}"
             ]' \
             --comment "Deploying application via GitHub Actions" \
             --query "Command.CommandId" \
