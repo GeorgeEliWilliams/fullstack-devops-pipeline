@@ -14,8 +14,8 @@ on:
   push:
     branches:
       -dev
-    types:
-      - closed
+    # types:
+    #   - closed
     paths:
       - "front-end/**"
 
