@@ -66,7 +66,7 @@ jobs:
           ENVIRONMENT: ${{ env.ENVIRONMENT }}
         run: |
           docker build -t ${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${{ env.SERVICE }}:${{ env.TAG }} --build-arg ENVIRONMENT=${{ env.ENVIRONMENT }} .
-        working-directory: front-end
+        working-directory: back-end
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
