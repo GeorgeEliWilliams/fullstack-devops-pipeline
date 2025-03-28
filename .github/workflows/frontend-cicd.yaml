@@ -1,4 +1,4 @@
-name: TMP Project CI/CD
+name: TMP Project Front-end CI/CD
 
 permissions:
   id-token: write
@@ -13,9 +13,9 @@ on:
   #     - main
   push:
     branches:
-      -dev
-    types:
-      - closed
+      - dev
+    # types:
+    #   - closed
     paths:
       - "front-end/**"
 
@@ -28,11 +28,12 @@ env:
   ENVIROMENT: "DEV"
   REPOSITORY: "tmp-project"
   AWS_GITHUB_ACTION_ROLE: ${{ secrets.AWS_GITHUB_ACTION_ROLE }}
+  PROJECT_DIR: "/home/ec2-user/tmp-project"
   # SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_DEV }}
 
 jobs:
   CI:
-    if: github.event.pull_request.merged == true
+    # if: github.event.pull_request.merged == true
 
     outputs:
       version: ${{ steps.version.outputs.version }}
@@ -90,17 +91,57 @@ jobs:
     runs-on: ubuntu-latest
     needs: [CI]
     steps:
-      - name: Deploy
-        uses: appleboy/ssh-action@v0.1.10
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
         with:
-          host: ${{ secrets.TMP_PROJECT_HOST }}
-          username: ${{ secrets.TMP_PROJECT_USER }}
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          script: |
-            aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 314146303416.dkr.ecr.eu-west-1.amazonaws.com
-            cd /home/ec2/tmp-project
-            docker compose pull ${{ env.SERVICE }}
-            docker compose up --no-deps -d ${{ env.SERVICE }}
+          aws-region: ${{ env.AWS_REGION }}
+          role-to-assume: ${{ env.AWS_GITHUB_ACTION_ROLE }}
+          role-session-name: tmp-project-${{ env.ENVIRONMENT }}-${{ env.SERVICE }}
+
+      - name: Execute Deployment Script via SSM
+        id: execute_command
+        run: |
+          COMMAND_ID=$(aws ssm send-command \
+            --instance-ids ${{ secrets.TMP_PROJECT_HOST }} \
+            --document-name "AWS-RunShellScript" \
+            --parameters 'commands=[
+              "cd ${{ env.PROJECT_DIR }}",
+              "aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.REGISTRY }}",
+              "docker-compose pull ${{ env.SERVICE }}",
+              "docker-compose up --no-deps -d ${{ env.SERVICE }}"
+            ]' \
+            --comment "Deploying application via GitHub Actions" \
+            --query "Command.CommandId" \
+            --output text)
+
+          echo "Command ID: $COMMAND_ID"
+          echo "command_id=$COMMAND_ID" >> $GITHUB_ENV
+
+      - name: Wait for Command Completion
+        run: sleep 15s
+
+      - name: Retrieve Command Output
+        run: |
+          aws ssm list-command-invocations \
+            --command-id "${{ env.command_id }}" \
+            --details \
+            --query "CommandInvocations[].CommandPlugins[].{Status:Status,Output:Output}" \
+            --output text
+
+      # - name: Deploy
+      #   uses: GeorgeEliWilliams/ssm-send-command-action@v1
+      #   with:
+      #     instanceName: ${{ secrets.TMP_PROJECT_HOST }}
+      #     workingDirectory: /home/ec2/tmp-project
+      #     commands: |
+      #       aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 314146303416.dkr.ecr.eu-west-1.amazonaws.com
+      #       docker compose pull ${{ env.SERVICE }}
+      #       docker compose up --no-deps -d ${{ env.SERVICE }}
+
+      
 
   # Report:
   #   runs-on: ubuntu-latest

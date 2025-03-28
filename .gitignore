@@ -14,8 +14,8 @@ package-lock.json
 
 # === Laravel / PHP ===
 vendor/
-.env
-.env.*
+back-end/.env
+.env.compose
 storage/
 bootstrap/cache/
 composer.lock
