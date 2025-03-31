@@ -8,14 +8,9 @@ permissions:
   statuses: write
 
 on:
-  # pull_request:
-  #   branches:
-  #     - main
   push:
     branches:
       - dev
-    # types:
-    #   - closed
     paths:
       - "back-end/**"
 
@@ -29,12 +24,10 @@ env:
   REPOSITORY: "tmp-project"
   AWS_GITHUB_ACTION_ROLE: ${{ secrets.AWS_GITHUB_ACTION_ROLE }}
   PROJECT_DIR: "/home/ec2-user/tmp-project"
-  # SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL_DEV }}
+  
 
 jobs:
   CI:
-    # if: github.event.pull_request.merged == true
-
     outputs:
       version: ${{ steps.version.outputs.version }}
 
@@ -131,30 +124,4 @@ jobs:
             --query "CommandInvocations[].CommandPlugins[].{Status:Status,Output:Output}" \
             --output text
 
-      # - name: Deploy
-      #   uses: appleboy/ssh-action@v0.1.10
-      #   with:
-      #     host: ${{ secrets.TMP_PROJECT_HOST }}
-      #     username: ${{ secrets.TMP_PROJECT_USER }}
-      #     key: ${{ secrets.SSH_PRIVATE_KEY }}
-      #     script: |
-      #       aws ecr get-login-password --region eu-west-1 | docker login --username AWS --password-stdin 314146303416.dkr.ecr.eu-west-1.amazonaws.com
-      #       cd /home/ec2/tmp-project
-      #       docker compose pull ${{ env.SERVICE }}
-      #       docker compose up --no-deps -d ${{ env.SERVICE }}
-
-  # Report:
-  #   runs-on: ubuntu-latest
-  #   needs: [CI, CD]
-  #   if: ${{ always() }}
-  #   steps:
-  #     - uses: technote-space/workflow-conclusion-action@v3
-  #     - name: Slack Notification
-  #       uses: 8398a7/action-slack@v3
-  #       with:
-  #         status: ${{ env.WORKFLOW_CONCLUSION }}
-  #         fields: repo,message,commit,author,action,eventName,ref,workflow
-
-  #       env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+     
